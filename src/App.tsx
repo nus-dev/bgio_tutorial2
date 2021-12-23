@@ -1,12 +1,18 @@
-import { BoardProps, Client } from 'boardgame.io/react';
-import { TicTacToe } from './tictactoe/Game';
-import { TicTacToeBoard } from './tictactoe/Board';
-import { ctx, G } from './tictactoe/types';
+import { Client } from 'boardgame.io/react';
+import TicTacToe from './tictactoe';
+import { SocketIO } from 'boardgame.io/multiplayer'
+import pylos from './pylos';
 
-const App = Client<G, BoardProps<G>, ctx>({
-    game: TicTacToe,
-    board: TicTacToeBoard,
+const GameClient = Client({
+    ...pylos,
+    multiplayer: SocketIO({ server: 'localhost:8000' }),
 });
 
+const App = () => (
+    <div>
+        <GameClient playerID="0" />
+        <GameClient playerID="1" />
+    </div>
+);
 
 export default App;

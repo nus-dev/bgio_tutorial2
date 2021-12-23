@@ -1,46 +1,23 @@
-import React from 'react';
+import { BoardProps } from 'boardgame.io/dist/types/packages/react';
+import { SquareGrid } from '../components/SquareGrid';
+import { TicTacToeG } from './types';
 
-export const TicTacToeBoard = (props: any) => {
-    const onClick = (id: any) => {
+export const TicTacToeBoard: React.ComponentType<BoardProps<TicTacToeG>> = (props) => {
+    const onClick = (id: number) => {
         props.moves.clickCell(id);
     }
 
-    const cellStyle = {
-        border: '1px solid #555',
-        width: '50px',
-        height: '50px',
-        lineHeight: '50px',
-        textAlign: 'center' as const,
-    };
-
-    let tbody = [];
-    for (let i = 0; i < 3; i++) {
-        let cells = [];
-        for (let j = 0; j < 3; j++) {
-            const id = 3 * i + j;
-            cells.push(
-                <td style={cellStyle} key={id} onClick={() => onClick(id)}>
-                    {props.G.cells[id]}
-                </td>
-            );
-        }
-        tbody.push(<tr key={i}>{cells}</tr>);
-    }
-
-
     return (
         <div>
-            <table id="board">
-                <tbody>{tbody}</tbody>
-            </table>
+            <SquareGrid length={3} values={props.G.cells} onClickCell={(idx) => onClick(idx)} />
             <Winner {...props} />
         </div>
     );
 }
 
-const Winner = (props: any) => {
+const Winner = (props: BoardProps<TicTacToeG>) => {
     return (<>
-        {props.ctx.gameover && (
+        {props.ctx?.gameover && (
             props.ctx.gameover.winner !== undefined ? (
                 <div id="winner">Winner: {props.ctx.gameover.winner}</div>
             ) : (

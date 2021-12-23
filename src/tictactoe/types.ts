@@ -1,11 +1,10 @@
 import { Ctx } from "boardgame.io"
 
-export type G = {
-    cells: Array<number>
+export type TicTacToeG = {
+    cells: Array<string>
 }
 
-export type ctx = Ctx & {
-    currentPlayer: number,
+export interface TicTacToeCtx extends Ctx {
     gameover?: {
         winner?: number
     }
